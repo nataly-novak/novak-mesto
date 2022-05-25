@@ -10,6 +10,7 @@
     max-height: 24px;
     max-width: 104px;
     margin-bottom: 32px;
+    margin-left: calc(50vw - 133px);
 
   }
 }
