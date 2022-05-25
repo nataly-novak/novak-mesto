@@ -10,11 +10,8 @@
   max-width: 150px;
   flex-basis: 150px;
   background-color: black;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
+  border: 2px solid white ;
   border-radius: 2px;
-  margin:0px;
   padding:0;
   text-align: center;
 

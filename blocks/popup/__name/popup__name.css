@@ -2,7 +2,7 @@
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
   box-sizing: border-box;
   font-family: "Inter", Arial, sans-serif;
   color: black;
