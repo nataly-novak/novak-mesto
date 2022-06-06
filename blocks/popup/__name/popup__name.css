@@ -13,3 +13,7 @@
   max-height: 27px;
 
 }
+
+.popup__name::placeholder {
+  color: #C4C4C4;
+}

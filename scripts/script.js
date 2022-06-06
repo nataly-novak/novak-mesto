@@ -1,49 +1,114 @@
-let popup = document.querySelector('.popup');
-let popupCloseButton = popup.querySelector('.popup__close-button');
+const images = [{image:"./images/elements-flying-cathedrall.jpg",altText:"Парящий в воздухе готический собор на закате",title: "Парящий Собор"},
+{image:"./images/elements-jordan-palace.jpg",altText:"Красно-оранжевое готическое здание на черном фоне",title: "Дворец Проклятого Города"},
+{image:"./images/elements-last-isle.jpg",altText:"Остров в море с руинами",title: "Руины Последнего Острова"},
+{image:"./images/elements-magic-school.jpg",altText:"Замок в горах покрытых зеленью",title: "Школа Магии"},
+{image:"./images/elements-truro-cathedral.jpg",altText:"Черно-белый готический собор на скале",title: "Кафедральный собор Труро"},
+{image:"./images/elements-venice.jpg",altText:"Мост над каналом, лодка, люди в масках",title: "Венецианский Карнавал"}];
 
-function closePopup(){
+let popupPerson = document.querySelector('.popup_person');
+let popupPersonCloseButton = popupPerson.querySelector('.popup__close-button');
+let popupPlace = document.querySelector('.popup_place');
+let popupPlaceCloseButton = popupPlace.querySelector('.popup__close-button');
+
+function closePopup(popup){
   popup.classList.add('popup_disabled');
 }
-popupCloseButton.addEventListener('click', closePopup);
+popupPersonCloseButton.addEventListener('click',() => {closePopup(popupPerson)});
+popupPlaceCloseButton.addEventListener('click',() => {closePopup(popupPlace)});
 
 let profileEditButton = document.querySelector('.profile__edit-button');
-function openPopup(){
-  popup.classList.remove('popup_disabled');
+function openPopupPerson(){
+  popupPerson.classList.remove('popup_disabled');
   let nameOutput = document.querySelector('.profile__name');// Воспользуйтесь инструментом .querySelector()
   let jobOutput = document.querySelector('.profile__subtitle');
-  let nameInput = formElement.querySelector('.popup__name');
-  let jobInput = formElement.querySelector('.popup__comment');
+  let nameInput = formElementPerson.querySelector('.popup__name');
+  let jobInput = formElementPerson.querySelector('.popup__comment');
   nameInput.value = nameOutput.textContent ;
   jobInput.value = jobOutput.textContent ;
 }
 
-profileEditButton.addEventListener('click', openPopup);
 
-// Находим форму в DOM
-let formElement = document.querySelector('.popup__form');// Воспользуйтесь методом querySelector()
-// Находим поля формы в DOM
-let nameInput = formElement.querySelector('.popup__name');// Воспользуйтесь инструментом .querySelector()
-let jobInput = formElement.querySelector('.popup__comment');// Воспользуйтесь инструментом .querySelector()
+profileEditButton.addEventListener('click', openPopupPerson);
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
-function formSubmitHandler (evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-                                                // Так мы можем определить свою логику отправки.
-                                                // О том, как это делать, расскажем позже.
 
-    // Получите значение полей jobInput и nameInput из свойства value
+let formElementPerson = popupPerson.querySelector('.popup__form');
+let nameInput = formElementPerson.querySelector('.popup__name');
+let jobInput = formElementPerson.querySelector('.popup__comment');
+
+function formSubmitHandlerPerson (evt) {
+    evt.preventDefault();
     let name = nameInput.value
     let job = jobInput.value
-    // Выберите элементы, куда должны быть вставлены значения полей
-    let nameOutput = document.querySelector('.profile__name');// Воспользуйтесь инструментом .querySelector()
+
+    let nameOutput = document.querySelector('.profile__name');
     let jobOutput = document.querySelector('.profile__subtitle');
-    // Вставьте новые значения с помощью textContent
     nameOutput.textContent = name;
     jobOutput.textContent = job;
-    closePopup()
+    closePopup(popupPerson)
 }
 
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', formSubmitHandler);
+formElementPerson.addEventListener('submit', formSubmitHandlerPerson);
+let formElementPlace = popupPlace.querySelector('.popup__form');
+let titleInput = formElementPlace.querySelector('.popup__name');
+let pathInput = formElementPlace.querySelector('.popup__comment');
+
+let profileAddButton = document.querySelector('.profile__add-button');
+function openPopupPlace(){
+  popupPlace.classList.remove('popup_disabled');
+  pathInput.value = ""
+  titleInput.value = ""
+}
+profileAddButton.addEventListener('click', openPopupPlace);
+
+
+
+function formSubmitHandlerPlace (evt) {
+    evt.preventDefault();
+    let path = pathInput.value
+    let title = titleInput.value
+    let newCard = {image: path, altText:"", title: title}
+    images.push(newCard);
+    renderCards()
+    closePopup(popupPlace)
+}
+
+formElementPlace.addEventListener('submit', formSubmitHandlerPlace);
+
+function createElement(picture)
+
+{
+  const elementTemplate = document.querySelector('#element').content;
+  const elementCard = elementTemplate.querySelector(".element").cloneNode(true);
+  elementCard.querySelector(".element__image").src = picture.image;
+  elementCard.querySelector(".element__image").alt = picture.altText;
+  elementCard.querySelector(".element__title").textContent = picture.title;
+
+  let like = elementCard.querySelector(".element__like")
+  like.addEventListener('click', function (evt) {
+    const eventTarget = evt.target;
+    eventTarget.classList.toggle("element__like_active");
+  });
+  let trash = elementCard.querySelector(".element__trash")
+  trash.addEventListener('click', function (evt) {
+    let container = evt.target.parentElement;
+    let element = container.parentElement;
+    let id = Array.from(element.parentElement.children).indexOf(element)
+    element.remove()
+    images.splice(id, 1);
+  });
+  const elements = document.querySelector('.elements');
+  elements.append(elementCard);
+}
+
+function renderCards(){
+  const elements = document.querySelector('.elements');
+  const allElements = elements.querySelectorAll(".element")
+  allElements.forEach((item ) => {
+    item.remove();
+  });
+
+  images.forEach((item) => {
+    createElement(item);
+  });
+}
+renderCards();
