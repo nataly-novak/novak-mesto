@@ -13,7 +13,8 @@ let popupImage = document.querySelector('.popup_image');
 let popupImageCloseButton = popupImage.querySelector('.popup__close-button');
 
 function closePopup(popup){
-  popup.classList.add('popup_disabled');
+  popup.classList.remove('popup_visible');
+  popup.classList.add('popup_hidden');
 }
 popupPersonCloseButton.addEventListener('click',() => {closePopup(popupPerson)});
 popupPlaceCloseButton.addEventListener('click',() => {closePopup(popupPlace)});
@@ -21,13 +22,14 @@ popupImageCloseButton.addEventListener('click',() => {closePopup(popupImage)});
 
 let profileEditButton = document.querySelector('.profile__edit-button');
 function openPopupPerson(){
-  popupPerson.classList.remove('popup_disabled');
   let nameOutput = document.querySelector('.profile__name');// Воспользуйтесь инструментом .querySelector()
   let jobOutput = document.querySelector('.profile__subtitle');
   let nameInput = formElementPerson.querySelector('.popup__name');
   let jobInput = formElementPerson.querySelector('.popup__comment');
   nameInput.value = nameOutput.textContent ;
   jobInput.value = jobOutput.textContent ;
+  popupPerson.classList.remove('popup_hidden');
+  popupPerson.classList.add('popup_visible');
 }
 
 
@@ -57,9 +59,11 @@ let pathInput = formElementPlace.querySelector('.popup__comment');
 
 let profileAddButton = document.querySelector('.profile__add-button');
 function openPopupPlace(){
-  popupPlace.classList.remove('popup_disabled');
   pathInput.value = ""
   titleInput.value = ""
+  popupPlace.classList.remove('popup_hidden');
+  popupPlace.classList.add('popup_visible');
+
 }
 profileAddButton.addEventListener('click', openPopupPlace);
 
@@ -81,7 +85,9 @@ function showPopupImage(src, alt){
   let img = popupImage.querySelector('.popup__image');
   img.src = src;
   img.alt = alt;
-  popupImage.classList.remove('popup_disabled');
+  popupImage.classList.remove('popup_hidden');
+  popupImage.classList.add('popup_visible');
+
 }
 
 function createElement(picture)
