@@ -9,12 +9,15 @@ let popupPerson = document.querySelector('.popup_person');
 let popupPersonCloseButton = popupPerson.querySelector('.popup__close-button');
 let popupPlace = document.querySelector('.popup_place');
 let popupPlaceCloseButton = popupPlace.querySelector('.popup__close-button');
+let popupImage = document.querySelector('.popup_image');
+let popupImageCloseButton = popupImage.querySelector('.popup__close-button');
 
 function closePopup(popup){
   popup.classList.add('popup_disabled');
 }
 popupPersonCloseButton.addEventListener('click',() => {closePopup(popupPerson)});
 popupPlaceCloseButton.addEventListener('click',() => {closePopup(popupPlace)});
+popupImageCloseButton.addEventListener('click',() => {closePopup(popupImage)});
 
 let profileEditButton = document.querySelector('.profile__edit-button');
 function openPopupPerson(){
@@ -74,13 +77,21 @@ function formSubmitHandlerPlace (evt) {
 
 formElementPlace.addEventListener('submit', formSubmitHandlerPlace);
 
+function showPopupImage(src, alt){
+  let img = popupImage.querySelector('.popup__image');
+  img.src = src;
+  img.alt = alt;
+  popupImage.classList.remove('popup_disabled');
+}
+
 function createElement(picture)
 
 {
   const elementTemplate = document.querySelector('#element').content;
   const elementCard = elementTemplate.querySelector(".element").cloneNode(true);
-  elementCard.querySelector(".element__image").src = picture.image;
-  elementCard.querySelector(".element__image").alt = picture.altText;
+  const image = elementCard.querySelector(".element__image");
+  image.src = picture.image;
+  image.alt = picture.altText;
   elementCard.querySelector(".element__title").textContent = picture.title;
 
   let like = elementCard.querySelector(".element__like")
@@ -96,6 +107,9 @@ function createElement(picture)
     element.remove()
     images.splice(id, 1);
   });
+  image.onclick = (evt) => {
+    showPopupImage(evt.target.src, evt.target.alt)
+  }
   const elements = document.querySelector('.elements');
   elements.append(elementCard);
 }
