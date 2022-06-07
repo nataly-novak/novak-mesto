@@ -74,7 +74,7 @@ function formSubmitHandlerPlace (evt) {
     let path = pathInput.value
     let title = titleInput.value
     let newCard = {image: path, altText:"", title: title}
-    images.push(newCard);
+    images.unshift(newCard);
     renderCards()
     closePopup(popupPlace)
 }
