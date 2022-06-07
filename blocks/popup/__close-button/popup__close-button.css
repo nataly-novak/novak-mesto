@@ -23,4 +23,5 @@
 
 .popup__close-button:hover{
   opacity: 60%;
+  cursor: pointer;
 }

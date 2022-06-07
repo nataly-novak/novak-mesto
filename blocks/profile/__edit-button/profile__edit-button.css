@@ -20,4 +20,5 @@
 
 .profile__edit-button:hover{
   opacity: 60%;
+  cursor: pointer;
 }
