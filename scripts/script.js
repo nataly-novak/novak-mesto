@@ -56,8 +56,8 @@ function handleFormSubmitPlace (evt) {
   closePopup(popupPlace);
 }
 
-function showPopupImage(src, alt, title){
-  popupImageTitle.textContent = title;
+function showPopupImage(src, alt){
+  popupImageTitle.textContent = alt;
   img.src = src;
   img.alt = alt;
   openPopup(popupImage);
@@ -68,7 +68,7 @@ function createElement(picture){
   const elementCard = elementTemplate.querySelector(".element").cloneNode(true);
   const image = elementCard.querySelector(".element__image");
   image.src = picture.image;
-  image.alt = picture.altText;
+  image.alt = picture.title;
   elementCard.querySelector(".element__title").textContent = picture.title;
   const like = elementCard.querySelector(".element__like")
   like.addEventListener('click', function (evt) {
@@ -81,8 +81,7 @@ function createElement(picture){
     element.remove()
   });
   image.addEventListener('click',function (evt) {
-    const elTitle = elementCard.querySelector(".element__title").textContent;
-    showPopupImage(evt.target.src, evt.target.alt, elTitle)
+    showPopupImage(evt.target.src, evt.target.alt)
   });
   return elementCard;
 }
