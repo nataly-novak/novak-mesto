@@ -18,6 +18,7 @@ const profileAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const img = popupImage.querySelector('.popup__image');
 
+
 function closePopup(popup){
   popup.classList.remove('popup_visible');
   popup.classList.add('popup_hidden');
@@ -31,6 +32,7 @@ function openPopupPerson(){
   nameInput.value = nameOutput.textContent ;
   jobInput.value = jobOutput.textContent ;
   openPopup(popupPerson);
+  popuoPerson.querySelector('.save-button').classList.remove("popup__save-button_disabled")
 }
 
 function handleFormSubmitPerson (evt) {
