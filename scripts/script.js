@@ -17,6 +17,7 @@ const pathInput = formElementPlace.querySelector('.popup__comment');
 const profileAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const img = popupImage.querySelector('.popup__image');
+const body = document.querySelector('.body')
 
 
 function closePopup(popup){
@@ -24,15 +25,29 @@ function closePopup(popup){
   popup.classList.add('popup_hidden');
 }
 
+
+
 function openPopup(popup){
   popup.classList.remove('popup_hidden');
   popup.classList.add('popup_visible');
+  const popupContainer = popup.querySelector('.popup__container');
+  popup.addEventListener('click', function (evt) {
+    if ((evt.target != popupContainer) && (popupContainer.contains(evt.target) === false)) {
+
+      closePopup(popup)
+    }
+  });
+  body.addEventListener('keydown', function(evt) {
+    if (evt.key==='Escape'){
+      closePopup(popup);
+    }
+  });
 }
 function openPopupPerson(){
   nameInput.value = nameOutput.textContent ;
   jobInput.value = jobOutput.textContent ;
   openPopup(popupPerson);
-  popuoPerson.querySelector('.save-button').classList.remove("popup__save-button_disabled")
+  popupPerson.querySelector('.popup__save-button').classList.remove("popup__save-button_disabled")
 }
 
 function handleFormSubmitPerson (evt) {
@@ -91,6 +106,7 @@ function createElement(picture){
 function addCard(picture){
   elements.prepend(createElement(picture));
 }
+
 
 popupPersonCloseButton.addEventListener('click',() => closePopup(popupPerson));
 popupPlaceCloseButton.addEventListener('click',() => closePopup(popupPlace));
