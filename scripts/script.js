@@ -43,6 +43,7 @@ function openPopup(popup){
     }
   });
 }
+
 function openPopupPerson(){
   nameInput.value = nameOutput.textContent ;
   jobInput.value = jobOutput.textContent ;
