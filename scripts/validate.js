@@ -7,7 +7,6 @@ function disableButton(button){
 }
 
 function enableButton(button){
-  console.log(button)
   button.classList.remove("popup__save-button_disabled")
   button.disabled = false;
 }
