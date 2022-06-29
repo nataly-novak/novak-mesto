@@ -10,15 +10,15 @@ const jobOutput = document.querySelector('.profile__subtitle');
 const formElementPerson = popupPerson.querySelector('.popup__form');
 const nameInput = formElementPerson.querySelector('.popup__name');
 const jobInput = formElementPerson.querySelector('.popup__comment');
-const element = document.querySelector('.elements');
+const cardContainer = document.querySelector('.elements');
 const formElementPlace = popupPlace.querySelector('.popup__form');
 const titleInput = formElementPlace.querySelector('.popup__name');
 const pathInput = formElementPlace.querySelector('.popup__comment');
 const profileAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
-const image = popupImage.querySelector('.popup__image');
-
-
+const imageViewer = popupImage.querySelector('.popup__image');
+const elementTemplate = document.querySelector('#element').content;
+const inactiveButtonClass =  'popup__save-button_disabled';
 
 function closePopup(popup){
   popup.classList.remove('popup_visible');
@@ -38,7 +38,7 @@ function openPopupPerson(){
   nameInput.value = nameOutput.textContent ;
   jobInput.value = jobOutput.textContent ;
   openPopup(popupPerson);
-  enableButton(popupPerson.querySelector('.popup__save-button'));
+  enableButton(popupPerson.querySelector('.popup__save-button'), inactiveButtonClass);
 
 }
 
@@ -54,7 +54,7 @@ function handleFormSubmitPerson (evt) {
 function openPopupPlace(){
   formElementPlace.reset();
   openPopup(popupPlace);
-  disableButton(popupPlace.querySelector('.popup__save-button'))
+  disableButton(popupPlace.querySelector('.popup__save-button'), inactiveButtonClass)
 }
 
 function handleFormSubmitPlace (evt) {
@@ -68,13 +68,12 @@ function handleFormSubmitPlace (evt) {
 
 function showPopupImage(src, alt){
   popupImageTitle.textContent = alt;
-  image.src = src;
-  image.alt = alt;
+  imageViewer.src = src;
+  imageViewer.alt = alt;
   openPopup(popupImage);
 }
 
 function createElement(picture){
-  const elementTemplate = document.querySelector('#element').content;
   const elementCard = elementTemplate.querySelector(".element").cloneNode(true);
   const image = elementCard.querySelector(".element__image");
   image.src = picture.image;
@@ -90,14 +89,14 @@ function createElement(picture){
     const element = evt.target.closest(".element");
     element.remove()
   });
-  image.addEventListener('click',function (evt) {
+  imageViewer.addEventListener('click',function (evt) {
     showPopupImage(evt.target.src, evt.target.alt)
   });
   return elementCard;
 }
 
 function addCard(picture){
-  element.prepend(createElement(picture));
+  cardContainer.prepend(createElement(picture));
 }
 
 function popupCloseOverlay(evt){
