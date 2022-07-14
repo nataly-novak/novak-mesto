@@ -1,25 +1,24 @@
-import {showPopupImage} from "./popup.js"
 export class Card{
-  constructor(picture, elementTemplate){
+  constructor(picture, elementTemplateSelector, showPopupImage){
     this._picture = picture;
-    this._elementTemplate = elementTemplate;
+    this._elementTemplate = elementTemplateSelector.content;
     this._elementCard = this._elementTemplate.querySelector(".element").cloneNode(true);
     this._image = this._elementCard.querySelector(".element__image");
     this._like = this._elementCard.querySelector(".element__like")
     this._trash = this._elementCard.querySelector(".element__trash")
+    this._showPopupImage = showPopupImage;
 
   }
 
   _handleLike(evt){
-    const eventTarget = evt.target;
-    eventTarget.classList.toggle("element__like_active");
+    this._like.classList.toggle("element__like_active");
   }
   _handleTrash(evt){
-    const element = evt.target.closest(".element");
-    element.remove()
+    this._elementCard.remove();
+    this._elementCard = null;
   }
   _handlePopup(evt){
-    showPopupImage(evt.target.src, evt.target.alt)
+    this._showPopupImage(this._picture.image, this._picture.title)
   }
   _setEventListeners(){
     this._like.addEventListener('click',(evt) => {

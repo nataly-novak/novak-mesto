@@ -1,4 +1,3 @@
-import {openPopup, showPopupImage, popupCloseEscape, closePopup} from "./popup.js"
 import {Card} from "./Card.js"
 import {FormValidator} from "./FormValidator.js"
 import {images} from "./cards.js"
@@ -21,14 +20,16 @@ import {images} from "./cards.js"
   const pathInput = formElementPlace.querySelector('.popup__comment');
   const profileAddButton = document.querySelector('.profile__add-button');
   const profileEditButton = document.querySelector('.profile__edit-button');
-  const elementTemplate = document.querySelector('#element').content;
+  const elementTemplateSelector = document.querySelector('#element');
   const inactiveButtonClass =  'popup__save-button_disabled';
+  const popupImageTitle = document.querySelector('.popup__image-title');
+  const imageViewer = popupImage.querySelector('.popup__image');
 
   function openPopupPerson(){
     nameInput.value = nameOutput.textContent ;
     jobInput.value = jobOutput.textContent ;
     openPopup(popupPerson);
-    validator.enableButton(popupPerson.querySelector('.popup__save-button'));
+    validatorPerson.validateForm();
 
   }
 
@@ -44,7 +45,7 @@ import {images} from "./cards.js"
   function openPopupPlace(){
     formElementPlace.reset();
     openPopup(popupPlace);
-    validator.disableButton(popupPlace.querySelector('.popup__save-button'))
+    validatorPlace.validateForm();
   }
 
   function handleFormSubmitPlace (evt) {
@@ -56,13 +57,37 @@ import {images} from "./cards.js"
     closePopup(popupPlace);
   }
 
+  function popupCloseEscape(evt){
+    if (evt.key==='Escape'){
+      const popup = document.querySelector('.popup_visible')
+      closePopup(popup);
+    }
+  }
+  function openPopup(popup){
+    popup.classList.remove('popup_hidden');
+    popup.classList.add('popup_visible');
+    document.addEventListener('keydown', popupCloseEscape);
+  }
+  function showPopupImage(src, alt){
+    popupImageTitle.textContent = alt;
+    imageViewer.src = src;
+    imageViewer.alt = alt;
+    openPopup(popupImage);
+  }
+
+  function closePopup(popup){
+    popup.classList.remove('popup_visible');
+    popup.classList.add('popup_hidden');
+    document.removeEventListener('keydown', popupCloseEscape)
+  }
+
   function addCard(picture){
-    const newCard = new Card(picture, elementTemplate)
+    const newCard = new Card(picture, elementTemplateSelector, showPopupImage)
     cardContainer.prepend(newCard.createElement());
   }
 
   function popupCloseOverlay(evt){
-    const popup = evt.currentTarget.closest(".popup")
+    const popup = evt.currentTarget;
     if (evt.target === evt.currentTarget) {
       closePopup(popup)
     }
@@ -71,7 +96,6 @@ import {images} from "./cards.js"
   popupPerson.addEventListener('click', popupCloseOverlay);
   popupImage.addEventListener('click', popupCloseOverlay);
   popupPlace.addEventListener('click', popupCloseOverlay);
-  document.addEventListener('keydown', popupCloseEscape);
   popupPersonCloseButton.addEventListener('click',() => closePopup(popupPerson));
   popupPlaceCloseButton.addEventListener('click',() => closePopup(popupPlace));
   popupImageCloseButton.addEventListener('click',() => closePopup(popupImage));
@@ -80,7 +104,8 @@ import {images} from "./cards.js"
   formElementPerson.addEventListener('submit', handleFormSubmitPerson);
   formElementPlace.addEventListener('submit', handleFormSubmitPlace);
 
-  const validator = new FormValidator({
+  const validatorPlace = new FormValidator({
+    popupSelector: '.popup_place',
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save-button',
@@ -90,7 +115,20 @@ import {images} from "./cards.js"
     inactiveButtonClass:  'popup__save-button_disabled'
   });
 
-  validator.enableValidation()
+  const validatorPerson = new FormValidator({
+    popupSelector: '.popup_person',
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-button',
+    inactiveButtonClass: 'popup__save-button_disabled',
+    inputErrorClass: 'popup_type_error',
+    errorClass: 'popup__error_active',
+    inactiveButtonClass:  'popup__save-button_disabled'
+  });
+
+  validatorPerson.enableValidation()
+  validatorPlace.enableValidation()
+
 
 
   images.forEach((item) => {
