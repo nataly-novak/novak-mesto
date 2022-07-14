@@ -81,9 +81,13 @@ import {images} from "./cards.js"
     document.removeEventListener('keydown', popupCloseEscape)
   }
 
-  function addCard(picture){
+  function createCard(picture){
     const newCard = new Card(picture, elementTemplateSelector, showPopupImage)
-    cardContainer.prepend(newCard.createElement());
+    return newCard.createElement()
+  }
+
+  function addCard(card){
+    cardContainer.prepend(card);
   }
 
   function popupCloseOverlay(evt){
@@ -132,6 +136,6 @@ import {images} from "./cards.js"
 
 
   images.forEach((item) => {
-    addCard(item)
+    addCard(createCard(item))
   });
 })();
