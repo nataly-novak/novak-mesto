@@ -7,7 +7,6 @@ export class Card{
     this._like = this._elementCard.querySelector(".element__like")
     this._trash = this._elementCard.querySelector(".element__trash")
     this._showPopupImage = showPopupImage;
-
   }
 
   _handleLike(evt){
@@ -31,7 +30,6 @@ export class Card{
       this._handlePopup(evt)
     });
   }
-
 
   createElement(){
     this._image.src = this._picture.image;

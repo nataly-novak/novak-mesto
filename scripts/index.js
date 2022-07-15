@@ -25,17 +25,12 @@ import {images} from "./cards.js"
   const imageViewer = popupImage.querySelector('.popup__image');
   const elementTemplateSelector = ('#element');
 
-
-
-
   function openPopupPerson(){
     nameInput.value = nameOutput.textContent ;
     jobInput.value = jobOutput.textContent ;
     openPopup(popupPerson);
     validatorPerson.clearValidation();
-
   }
-
   function handleFormSubmitPerson (evt) {
     evt.preventDefault();
     const name = nameInput.value
@@ -132,9 +127,6 @@ import {images} from "./cards.js"
 
   validatorPerson.enableValidation()
   validatorPlace.enableValidation()
-
-
-
   images.forEach((item) => {
     addCard(createCard(item))
   });
