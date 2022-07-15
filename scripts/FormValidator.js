@@ -2,8 +2,7 @@
 // все настройки передаются при вызове
 export class FormValidator {
   constructor(validator){
-    this._formSelector = validator.formSelector;
-    this._formElement = document.querySelector(validator.popupSelector).querySelector(this._formSelector);
+    this._formElement = validator.formElement;
     this._inputSelector = validator.inputSelector;
     this._submitButtonSelector = validator.submitButtonSelector;
     this._inactiveButtonClass = validator.inactiveButtonClass;
@@ -14,13 +13,13 @@ export class FormValidator {
     this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
-  _disableButton(button){
-    button.classList.add(this._inactiveButtonClass);
-    button.disabled = true;
+  _disableButton(){
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.disabled = true;
   }
-  _enableButton(button){
-    button.classList.remove(this._inactiveButtonClass)
-    button.disabled = false;
+  _enableButton(){
+    this._buttonElement.classList.remove(this._inactiveButtonClass)
+    this._buttonElement.disabled = false;
   }
   _showInputError(inputElement, errorMessage){
     const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
@@ -49,9 +48,9 @@ export class FormValidator {
   }
   _toggleButtonState(){
     if (this._hasInvalidInput(this._inputList)) {
-      this._disableButton(this._buttonElement)
+      this._disableButton()
     } else {
-      this._enableButton(this._buttonElement)
+      this._enableButton()
     }
   }
   _setEventListeners() {
@@ -62,18 +61,19 @@ export class FormValidator {
       inputElement.addEventListener('input', function () {
         self._checkInputValidity(inputElement);
         // чтобы проверять его при изменении любого из полей
-        self._toggleButtonState(this._inputList, this._buttonElement);
+        self._toggleButtonState();
       });
     });
   }
   enableValidation(){
     this._setEventListeners(this._formElement)
   }
-  validateForm(){
-    const self = this;
+  clearValidation(){
     this._inputList.forEach((inputElement) => {
-      self._checkInputValidity(inputElement);
-      self._toggleButtonState(this._inputList, this._buttonElement);
+      this._checkInputValidity(inputElement);
+      this._hideInputError(inputElement)
+      this._toggleButtonState(this._inputList, this._buttonElement);
+
     });
   }
 }

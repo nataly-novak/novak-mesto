@@ -20,16 +20,19 @@ import {images} from "./cards.js"
   const pathInput = formElementPlace.querySelector('.popup__comment');
   const profileAddButton = document.querySelector('.profile__add-button');
   const profileEditButton = document.querySelector('.profile__edit-button');
-  const elementTemplateSelector = document.querySelector('#element');
   const inactiveButtonClass =  'popup__save-button_disabled';
   const popupImageTitle = document.querySelector('.popup__image-title');
   const imageViewer = popupImage.querySelector('.popup__image');
+  const elementTemplateSelector = ('#element');
+
+
+
 
   function openPopupPerson(){
     nameInput.value = nameOutput.textContent ;
     jobInput.value = jobOutput.textContent ;
     openPopup(popupPerson);
-    validatorPerson.validateForm();
+    validatorPerson.clearValidation();
 
   }
 
@@ -45,7 +48,7 @@ import {images} from "./cards.js"
   function openPopupPlace(){
     formElementPlace.reset();
     openPopup(popupPlace);
-    validatorPlace.validateForm();
+    validatorPlace.clearValidation();
   }
 
   function handleFormSubmitPlace (evt) {
@@ -91,9 +94,8 @@ import {images} from "./cards.js"
   }
 
   function popupCloseOverlay(evt){
-    const popup = evt.currentTarget;
     if (evt.target === evt.currentTarget) {
-      closePopup(popup)
+      closePopup(evt.currentTarget)
     }
   }
 
@@ -109,8 +111,7 @@ import {images} from "./cards.js"
   formElementPlace.addEventListener('submit', handleFormSubmitPlace);
 
   const validatorPlace = new FormValidator({
-    popupSelector: '.popup_place',
-    formSelector: '.popup__form',
+    formElement: formElementPlace,
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save-button',
     inactiveButtonClass: 'popup__save-button_disabled',
@@ -120,8 +121,7 @@ import {images} from "./cards.js"
   });
 
   const validatorPerson = new FormValidator({
-    popupSelector: '.popup_person',
-    formSelector: '.popup__form',
+    formElement: formElementPerson,
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save-button',
     inactiveButtonClass: 'popup__save-button_disabled',

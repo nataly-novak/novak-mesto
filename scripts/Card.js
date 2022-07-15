@@ -1,7 +1,7 @@
 export class Card{
   constructor(picture, elementTemplateSelector, showPopupImage){
     this._picture = picture;
-    this._elementTemplate = elementTemplateSelector.content;
+    this._elementTemplate = document.querySelector(elementTemplateSelector).content;
     this._elementCard = this._elementTemplate.querySelector(".element").cloneNode(true);
     this._image = this._elementCard.querySelector(".element__image");
     this._like = this._elementCard.querySelector(".element__like")
